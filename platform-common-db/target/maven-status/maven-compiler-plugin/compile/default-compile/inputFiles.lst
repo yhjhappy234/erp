@@ -1,0 +1,3 @@
+/home/admin/workspace/erp/platform-common-db/src/main/java/com/yhj/erp/common/db/config/JpaAuditingConfig.java
+/home/admin/workspace/erp/platform-common-db/src/main/java/com/yhj/erp/common/db/entity/BaseEntity.java
+/home/admin/workspace/erp/platform-common-db/src/main/java/com/yhj/erp/common/db/repository/BaseRepository.java

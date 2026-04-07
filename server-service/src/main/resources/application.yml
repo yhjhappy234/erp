@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: server-service
+  datasource:
+    url: jdbc:sqlite:${SERVER_DB_PATH:./data/server.db}
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+        format_sql: true
+    show-sql: false
+
+server:
+  port: 8082
+
+logging:
+  level:
+    com.yhj.erp: DEBUG

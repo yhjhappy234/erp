@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: power-service
+  datasource:
+    url: jdbc:sqlite:${POWER_DB_PATH:./data/power.db}
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+        format_sql: true
+    show-sql: false
+
+server:
+  port: 8084
+
+logging:
+  level:
+    com.yhj.erp: DEBUG

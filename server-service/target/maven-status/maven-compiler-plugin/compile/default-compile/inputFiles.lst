@@ -1,0 +1,6 @@
+/home/admin/workspace/erp/server-service/src/main/java/com/yhj/erp/server/impl/config/ServerServiceConfig.java
+/home/admin/workspace/erp/server-service/src/main/java/com/yhj/erp/server/impl/controller/ServerController.java
+/home/admin/workspace/erp/server-service/src/main/java/com/yhj/erp/server/impl/entity/ServerEntity.java
+/home/admin/workspace/erp/server-service/src/main/java/com/yhj/erp/server/impl/mapper/ServerMapper.java
+/home/admin/workspace/erp/server-service/src/main/java/com/yhj/erp/server/impl/repository/ServerRepository.java
+/home/admin/workspace/erp/server-service/src/main/java/com/yhj/erp/server/impl/service/ServerServiceImpl.java

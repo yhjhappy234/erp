@@ -1,0 +1,13 @@
+com/yhj/erp/server/api/dto/ServerUpdateRequest.class
+com/yhj/erp/server/api/dto/ScrapRequest.class
+com/yhj/erp/server/api/dto/DeployRequest$DeployRequestBuilder.class
+com/yhj/erp/server/api/dto/ServerCreateRequest.class
+com/yhj/erp/server/api/dto/ServerDto.class
+com/yhj/erp/server/api/service/ServerService.class
+com/yhj/erp/server/api/dto/ServerUpdateRequest$ServerUpdateRequestBuilder.class
+com/yhj/erp/server/api/dto/ServerQueryRequest.class
+com/yhj/erp/server/api/dto/DeployRequest.class
+com/yhj/erp/server/api/dto/ServerDto$ServerDtoBuilder.class
+com/yhj/erp/server/api/dto/ServerQueryRequest$ServerQueryRequestBuilder.class
+com/yhj/erp/server/api/dto/ScrapRequest$ScrapRequestBuilder.class
+com/yhj/erp/server/api/dto/ServerCreateRequest$ServerCreateRequestBuilder.class

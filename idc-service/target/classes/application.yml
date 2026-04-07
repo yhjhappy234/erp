@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: idc-service
+  datasource:
+    url: jdbc:sqlite:${IDC_DB_PATH:./data/idc.db}
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+        format_sql: true
+    show-sql: false
+  flyway:
+    enabled: false
+
+server:
+  port: 8081
+
+logging:
+  level:
+    com.yhj.erp: DEBUG

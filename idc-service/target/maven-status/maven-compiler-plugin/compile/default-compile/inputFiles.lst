@@ -1,0 +1,10 @@
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/config/IdcServiceConfig.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/controller/DataCenterController.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/entity/CabinetEntity.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/entity/DataCenterEntity.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/entity/RoomEntity.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/mapper/DataCenterMapper.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/repository/CabinetRepository.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/repository/DataCenterRepository.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/repository/RoomRepository.java
+/home/admin/workspace/erp/idc-service/src/main/java/com/yhj/erp/idc/impl/service/DataCenterServiceImpl.java

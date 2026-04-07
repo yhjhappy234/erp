@@ -1,0 +1,11 @@
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/IPAddressAllocateRequest.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/IPAddressDto.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/IPPoolCreateRequest.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/IPPoolDto.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/IPPoolUpdateRequest.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/NetworkDeviceCreateRequest.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/NetworkDeviceDto.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/NetworkDeviceQueryRequest.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/dto/NetworkDeviceUpdateRequest.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/service/IPPoolService.java
+/home/admin/workspace/erp/network-api/src/main/java/com/yhj/erp/network/api/service/NetworkDeviceService.java

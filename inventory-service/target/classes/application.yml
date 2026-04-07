@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: inventory-service
+  datasource:
+    url: jdbc:sqlite:${INVENTORY_DB_PATH:./data/inventory.db}
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+        format_sql: true
+    show-sql: false
+
+server:
+  port: 8085
+
+logging:
+  level:
+    com.yhj.erp: DEBUG

@@ -1,0 +1,3 @@
+com/yhj/erp/common/db/repository/BaseRepository.class
+com/yhj/erp/common/db/config/JpaAuditingConfig.class
+com/yhj/erp/common/db/entity/BaseEntity.class

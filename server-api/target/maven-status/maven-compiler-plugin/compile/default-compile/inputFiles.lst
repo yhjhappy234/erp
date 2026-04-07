@@ -1,0 +1,7 @@
+/home/admin/workspace/erp/server-api/src/main/java/com/yhj/erp/server/api/dto/DeployRequest.java
+/home/admin/workspace/erp/server-api/src/main/java/com/yhj/erp/server/api/dto/ScrapRequest.java
+/home/admin/workspace/erp/server-api/src/main/java/com/yhj/erp/server/api/dto/ServerCreateRequest.java
+/home/admin/workspace/erp/server-api/src/main/java/com/yhj/erp/server/api/dto/ServerDto.java
+/home/admin/workspace/erp/server-api/src/main/java/com/yhj/erp/server/api/dto/ServerQueryRequest.java
+/home/admin/workspace/erp/server-api/src/main/java/com/yhj/erp/server/api/dto/ServerUpdateRequest.java
+/home/admin/workspace/erp/server-api/src/main/java/com/yhj/erp/server/api/service/ServerService.java
