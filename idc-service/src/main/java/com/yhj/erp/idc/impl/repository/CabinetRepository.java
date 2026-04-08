@@ -56,4 +56,22 @@ public interface CabinetRepository extends BaseRepository<CabinetEntity, String>
      * @return count
      */
     long countByRoomIdAndDeletedFalse(String roomId);
+
+    /**
+     * Find cabinets by data center ID with pagination.
+     *
+     * @param datacenterId data center ID
+     * @param pageable     pagination
+     * @return page of cabinets
+     */
+    Page<CabinetEntity> findByDatacenterIdAndDeletedFalse(String datacenterId, Pageable pageable);
+
+    /**
+     * Find cabinets by room ID in list with pagination.
+     *
+     * @param roomIds list of room IDs
+     * @param pageable pagination
+     * @return page of cabinets
+     */
+    Page<CabinetEntity> findByRoomIdInAndDeletedFalse(List<String> roomIds, Pageable pageable);
 }

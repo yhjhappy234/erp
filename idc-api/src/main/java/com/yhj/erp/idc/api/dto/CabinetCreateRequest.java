@@ -27,6 +27,11 @@ public class CabinetCreateRequest {
     private String roomId;
 
     /**
+     * Associated data center ID
+     */
+    private String datacenterId;
+
+    /**
      * Associated zone ID (optional)
      */
     private String zoneId;

@@ -27,6 +27,12 @@ public class CabinetEntity extends BaseEntity {
     private String roomId;
 
     /**
+     * Associated data center ID (denormalized for efficient querying)
+     */
+    @Column(name = "datacenter_id", length = 36)
+    private String datacenterId;
+
+    /**
      * Associated zone ID (optional)
      */
     @Column(name = "zone_id", length = 36)

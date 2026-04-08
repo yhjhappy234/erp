@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * Data Center REST Controller.
  */
 @RestController
-@RequestMapping("/api/v1/datacenters")
+@RequestMapping("/api/v1/idc/datacenters")
 @RequiredArgsConstructor
 @Tag(name = "Data Center Management", description = "Data Center management APIs")
 public class DataCenterController {

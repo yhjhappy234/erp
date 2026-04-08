@@ -47,6 +47,12 @@ public class RoomEntity extends BaseEntity {
     private Double area;
 
     /**
+     * Zone
+     */
+    @Column(length = 50)
+    private String zone;
+
+    /**
      * Number of racks
      */
     @Builder.Default
