@@ -183,7 +183,8 @@ public class IPPoolServiceImpl implements IPPoolService {
         // Update pool used addresses count
         IPPoolEntity pool = ipPoolRepository.findActiveById(poolId)
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorCode.IP_POOL_NOT_FOUND));
-        pool.setUsedAddresses(pool.getUsedAddresses() - 1);
+        int currentUsed = pool.getUsedAddresses() != null ? pool.getUsedAddresses() : 0;
+        pool.setUsedAddresses(Math.max(0, currentUsed - 1));
         ipPoolRepository.save(pool);
     }
 

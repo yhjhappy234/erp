@@ -49,6 +49,11 @@ public class RoomDto {
     private Double area;
 
     /**
+     * Zone
+     */
+    private String zone;
+
+    /**
      * Number of racks
      */
     private Integer rackCount;
