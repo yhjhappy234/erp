@@ -70,6 +70,17 @@ public class BusinessException extends RuntimeException {
     }
 
     /**
+     * Create a business exception with message only.
+     *
+     * @param message error message
+     */
+    public BusinessException(String message) {
+        super(message);
+        this.code = ErrorCode.BAD_REQUEST.getCode();
+        this.httpStatus = HttpStatus.BAD_REQUEST;
+    }
+
+    /**
      * Map error code to HTTP status.
      *
      * @param errorCode error code

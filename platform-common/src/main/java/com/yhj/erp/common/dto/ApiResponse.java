@@ -71,6 +71,31 @@ public class ApiResponse<T> {
     }
 
     /**
+     * Create an error response with message only.
+     *
+     * @param message error message
+     * @return error response
+     */
+    public static <T> ApiResponse<T> error(String message) {
+        return error(ErrorCode.BAD_REQUEST.getCode(), message);
+    }
+
+    /**
+     * Create a success response with message and data.
+     *
+     * @param message success message
+     * @param data the response data
+     * @return success response
+     */
+    public static <T> ApiResponse<T> success(String message, T data) {
+        return ApiResponse.<T>builder()
+                .code(ErrorCode.SUCCESS.getCode())
+                .message(message)
+                .data(data)
+                .build();
+    }
+
+    /**
      * Create an error response.
      *
      * @param code    error code

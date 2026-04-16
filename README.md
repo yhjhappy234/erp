@@ -5,6 +5,7 @@
 ## 项目概述
 
 本系统为云计算服务商提供完整的基础设施资源管理解决方案，包括：
+- 用户认证与管理
 - 机房IDC管理
 - 服务器资产管理
 - 网络资源管理
@@ -20,7 +21,19 @@
 | 数据库 | SQLite 3.47.x |
 | ORM | Spring Data JPA + Hibernate 6.x |
 | 构建工具 | Maven 3.9.x |
+| 密码加密 | BCrypt |
+| 认证方式 | Session |
 | 测试覆盖率 | JaCoCo (90%) |
+
+## 默认账户
+
+系统启动后自动创建默认管理员账户：
+- 用户名: `admin`
+- 密码: `123456`
+
+可通过环境变量配置：
+- `APP_DEFAULT_USERNAME`
+- `APP_DEFAULT_PASSWORD`
 
 ## 项目结构
 
@@ -37,6 +50,8 @@ erp/
 │       ├── entity/                   # BaseEntity
 │       ├── repository/               # BaseRepository
 │       └── config/                   # 数据库配置
+├── user-api/                         # 用户管理API
+├── user-service/                     # 用户管理实现
 ├── idc-api/                          # IDC管理API
 ├── idc-service/                      # IDC管理实现
 ├── server-api/                       # 服务器管理API
@@ -65,35 +80,55 @@ erp/
 - `BaseEntity` - 实体基类（包含id、创建时间、更新时间、软删除标志）
 - `BaseRepository` - Repository基接口（支持软删除）
 
-### 3. idc-service (机房IDC管理)
+### 3. user-service (用户认证与管理)
+功能：
+- 用户登录/登出
+- Session认证
+- 用户CRUD管理（仅管理员）
+- 密码修改
+- 角色管理（ADMIN/USER）
+- 用户状态管理（ACTIVE/DISABLED）
+
+API端点：
+- `POST /api/v1/auth/login` - 登录
+- `POST /api/v1/auth/logout` - 登出
+- `GET /api/v1/auth/current` - 获取当前用户
+- `GET /api/v1/auth/status` - 检查登录状态
+- `GET /api/v1/users` - 用户列表（需管理员）
+- `POST /api/v1/users` - 创建用户（需管理员）
+- `PUT /api/v1/users/{id}` - 更新用户（需管理员）
+- `DELETE /api/v1/users/{id}` - 删除用户（需管理员）
+- `POST /api/v1/users/me/password` - 修改密码
+
+### 4. idc-service (机房IDC管理)
 功能：
 - 数据中心管理
 - 机房房间管理
 - 机柜管理
 - U位管理
 
-### 4. server-service (服务器资产管理)
+### 5. server-service (服务器资产管理)
 功能：
 - 服务器资产全生命周期管理
 - 硬件配置管理
 - 部署管理
 - 报废管理
 
-### 5. network-service (网络资源管理)
+### 6. network-service (网络资源管理)
 功能：
 - 网络设备管理
 - IP地址池管理
 - VLAN管理
 - 带宽资源管理
 
-### 6. power-service (电力能源管理)
+### 7. power-service (电力能源管理)
 功能：
 - 电力设备管理
 - 能耗数据采集
 - PUE监控
 - 成本核算
 
-### 7. inventory-service (库存采购管理)
+### 8. inventory-service (库存采购管理)
 功能：
 - 供应商管理
 - 采购申请/订单管理
@@ -126,7 +161,14 @@ java -jar platform-app/target/platform-app-1.0.0-SNAPSHOT.jar
 
 ## API示例
 
-### 创建数据中心
+### 用户登录
+```bash
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"123456"}'
+```
+
+### 创建数据中心（需登录）
 ```bash
 curl -X POST http://localhost:8080/api/v1/datacenters \
   -H "Content-Type: application/json" \

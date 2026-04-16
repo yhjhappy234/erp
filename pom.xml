@@ -41,6 +41,8 @@
     <modules>
         <module>platform-common</module>
         <module>platform-common-db</module>
+        <module>user-api</module>
+        <module>user-service</module>
         <module>idc-api</module>
         <module>idc-service</module>
         <module>server-api</module>
@@ -65,6 +67,16 @@
             <dependency>
                 <groupId>com.yhj.erp</groupId>
                 <artifactId>platform-common-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yhj.erp</groupId>
+                <artifactId>user-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yhj.erp</groupId>
+                <artifactId>user-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -29,3 +29,9 @@ logging:
   level:
     root: INFO
     com.yhj.erp: DEBUG
+
+# 默认用户配置
+app:
+  default:
+    username: ${APP_DEFAULT_USERNAME:admin}
+    password: ${APP_DEFAULT_PASSWORD:123456}

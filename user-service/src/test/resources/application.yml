@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: user-service-test
+  datasource:
+    url: jdbc:sqlite:file:memdb?mode=memory
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+        format_sql: false
+    show-sql: false
+
+logging:
+  level:
+    root: WARN
+    com.yhj.erp.user: DEBUG
+
+# 默认用户配置
+app:
+  default:
+    username: admin
+    password: 123456
