@@ -53,8 +53,8 @@ class PurchaseOrderServiceImplTest {
         request.setOrderDate(LocalDateTime.now());
         request.setNotes("Test order");
 
-        List<OrderItemDto> items = new ArrayList<>();
-        OrderItemDto item = new OrderItemDto();
+        List<PurchaseOrderItemDto> items = new ArrayList<>();
+        PurchaseOrderItemDto item = new PurchaseOrderItemDto();
         item.setProductName("Server");
         item.setQuantity(10);
         item.setUnitPrice(BigDecimal.valueOf(1000));

@@ -17,6 +17,7 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,7 +52,7 @@ class SupplierServiceImplTest {
         request.setEmail("test@example.com");
         request.setAddress("Beijing");
         request.setStatus("ACTIVE");
-        request.setRating(5);
+        request.setRating(BigDecimal.valueOf(5));
 
         when(supplierRepository.existsBySupplierCodeAndDeletedFalse("SUP-001")).thenReturn(false);
 
@@ -85,8 +86,6 @@ class SupplierServiceImplTest {
         SupplierCreateRequest request = new SupplierCreateRequest();
         request.setName("Test Supplier");
         request.setCode(null);
-
-        when(supplierRepository.existsBySupplierCodeAndDeletedFalse(any())).thenReturn(false);
 
         SupplierEntity savedEntity = createSupplierEntity();
         when(supplierRepository.save(any(SupplierEntity.class))).thenReturn(savedEntity);
@@ -249,7 +248,7 @@ class SupplierServiceImplTest {
         entity.setContactEmail("test@example.com");
         entity.setAddress("Beijing");
         entity.setStatus(SupplierEntity.SupplierStatus.ACTIVE);
-        entity.setRating(5);
+        entity.setRating(BigDecimal.valueOf(5));
         return entity;
     }
 }

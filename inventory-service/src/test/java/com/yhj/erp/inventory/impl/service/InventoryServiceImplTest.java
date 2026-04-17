@@ -68,7 +68,7 @@ class InventoryServiceImplTest {
         List<InventoryEntity> entities = Arrays.asList(createInventoryEntity());
         Page<InventoryEntity> page = new PageImpl<>(entities);
 
-        when(inventoryRepository.findByProductNameContainingAndDeletedFalse("Server", any(Pageable.class))).thenReturn(page);
+        when(inventoryRepository.findByProductNameContainingAndDeletedFalse(eq("Server"), any(Pageable.class))).thenReturn(page);
 
         InventoryDto dto = new InventoryDto();
         when(inventoryMapper.toDto(any(InventoryEntity.class))).thenReturn(dto);
