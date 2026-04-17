@@ -112,4 +112,62 @@ class AuditE2ETest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200));
     }
+
+    @Test
+    @Order(9)
+    void queryWithXForwardedForHeader() throws Exception {
+        mockMvc.perform(get("/api/v1/audit")
+                        .header("X-Forwarded-For", "192.168.1.1")
+                        .param("page", "1")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200));
+    }
+
+    @Test
+    @Order(10)
+    void queryWithXRealIPHeader() throws Exception {
+        mockMvc.perform(get("/api/v1/audit")
+                        .header("X-Real-IP", "10.0.0.1")
+                        .param("page", "1")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200));
+    }
+
+    @Test
+    @Order(11)
+    void queryWithUnknownHeader() throws Exception {
+        mockMvc.perform(get("/api/v1/audit")
+                        .header("X-Forwarded-For", "unknown")
+                        .header("X-Real-IP", "unknown")
+                        .param("page", "1")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200));
+    }
+
+    @Test
+    @Order(12)
+    void queryWithEmptyTimeRange() throws Exception {
+        mockMvc.perform(get("/api/v1/audit/query")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("startTime", "")
+                        .param("endTime", ""))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200));
+    }
+
+    @Test
+    @Order(13)
+    void queryWithEntityId() throws Exception {
+        mockMvc.perform(get("/api/v1/audit/query")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("entityType", "Server")
+                        .param("entityId", "100"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200));
+    }
 }

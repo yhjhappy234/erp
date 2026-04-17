@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: audit-service-test
+  datasource:
+    url: jdbc:sqlite:file:memdb?mode=memory
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.community.dialect.SQLiteDialect
+        format_sql: false
+    show-sql: false
+
+logging:
+  level:
+    root: WARN
+    com.yhj.erp.audit: DEBUG
+
+app:
+  timezone: Asia/Shanghai
+  audit:
+    enabled: true
+    log-level: INFO

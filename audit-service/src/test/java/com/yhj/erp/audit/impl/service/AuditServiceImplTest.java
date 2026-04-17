@@ -7,17 +7,22 @@ import com.yhj.erp.audit.impl.mapper.AuditLogMapper;
 import com.yhj.erp.audit.impl.repository.AuditLogRepository;
 import com.yhj.erp.common.dto.PageRequest;
 import com.yhj.erp.common.dto.PageResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -124,7 +129,7 @@ class AuditServiceImplTest {
         List<AuditLogEntity> entities = Arrays.asList(createEntity());
         Page<AuditLogEntity> page = new PageImpl<>(entities);
 
-        when(repository.findByUserIdOrderByCreatedAtDesc("1", any(Pageable.class))).thenReturn(page);
+        when(repository.findByUserIdOrderByCreatedAtDesc(eq("1"), any(Pageable.class))).thenReturn(page);
 
         AuditLogDto dto = new AuditLogDto();
         when(mapper.toDtoList(entities)).thenReturn(Arrays.asList(dto));
@@ -147,12 +152,128 @@ class AuditServiceImplTest {
         PageRequest request = PageRequest.of(1, 10);
         Page<AuditLogEntity> emptyPage = new PageImpl<>(Collections.emptyList());
 
-        when(repository.findByUserIdOrderByCreatedAtDesc("999", any(Pageable.class))).thenReturn(emptyPage);
+        when(repository.findByUserIdOrderByCreatedAtDesc(eq("999"), any(Pageable.class))).thenReturn(emptyPage);
         when(mapper.toDtoList(Collections.emptyList())).thenReturn(Collections.emptyList());
 
         PageResponse<AuditLogDto> result = service.getUserLogs("999", request);
         assertTrue(result.getContent().isEmpty());
         assertEquals(0L, result.getTotalElements());
+    }
+
+    @Test
+    void queryWithStartTimeAndEndTime() {
+        PageRequest request = PageRequest.of(1, 10);
+        List<AuditLogEntity> entities = Arrays.asList(createEntity());
+        Page<AuditLogEntity> page = new PageImpl<>(entities);
+
+        when(repository.queryByConditions(any(), any(), any(), any(), any(LocalDateTime.class), any(LocalDateTime.class), any(Pageable.class)))
+                .thenReturn(page);
+
+        AuditLogDto dto = new AuditLogDto();
+        when(mapper.toDtoList(entities)).thenReturn(Arrays.asList(dto));
+
+        PageResponse<AuditLogDto> result = service.query(request, null, null, null, null,
+                "2026-01-01T00:00:00", "2026-12-31T23:59:59");
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void queryWithInvalidDateTimeFormat() {
+        PageRequest request = PageRequest.of(1, 10);
+        List<AuditLogEntity> entities = Arrays.asList(createEntity());
+        Page<AuditLogEntity> page = new PageImpl<>(entities);
+
+        when(repository.queryByConditions(any(), any(), any(), any(), isNull(), isNull(), any(Pageable.class)))
+                .thenReturn(page);
+
+        AuditLogDto dto = new AuditLogDto();
+        when(mapper.toDtoList(entities)).thenReturn(Arrays.asList(dto));
+
+        // Invalid datetime format should be parsed as null
+        PageResponse<AuditLogDto> result = service.query(request, null, null, null, null,
+                "invalid-date", "invalid-date");
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void logHandlesException() {
+        // Test that logging continues even when save fails
+        doThrow(new RuntimeException("Database error")).when(repository).save(any(AuditLogEntity.class));
+
+        // Should not throw exception - just log the error
+        service.log(OperationType.CREATE, "User", "1", "Test");
+
+        verify(repository).save(any(AuditLogEntity.class));
+    }
+
+    @Test
+    void logWithRequestAttributesAndXForwardedFor() {
+        // Setup mock request with X-Forwarded-For header
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        ServletRequestAttributes attributes = new ServletRequestAttributes(mockRequest);
+        RequestContextHolder.setRequestAttributes(attributes);
+
+        when(mockRequest.getHeader("X-Forwarded-For")).thenReturn("192.168.1.100, 10.0.0.1");
+
+        service.log(OperationType.CREATE, "User", "1", "Created with X-Forwarded-For");
+
+        verify(repository).save(entityCaptor.capture());
+        assertEquals("192.168.1.100, 10.0.0.1", entityCaptor.getValue().getIpAddress());
+
+        RequestContextHolder.resetRequestAttributes();
+    }
+
+    @Test
+    void logWithRequestAttributesAndXRealIP() {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        ServletRequestAttributes attributes = new ServletRequestAttributes(mockRequest);
+        RequestContextHolder.setRequestAttributes(attributes);
+
+        when(mockRequest.getHeader("X-Forwarded-For")).thenReturn(null);
+        when(mockRequest.getHeader("X-Real-IP")).thenReturn("10.0.0.50");
+
+        service.log(OperationType.CREATE, "User", "1", "Created with X-Real-IP");
+
+        verify(repository).save(entityCaptor.capture());
+        assertEquals("10.0.0.50", entityCaptor.getValue().getIpAddress());
+
+        RequestContextHolder.resetRequestAttributes();
+    }
+
+    @Test
+    void logWithRequestAttributesAndRemoteAddr() {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        ServletRequestAttributes attributes = new ServletRequestAttributes(mockRequest);
+        RequestContextHolder.setRequestAttributes(attributes);
+
+        when(mockRequest.getHeader("X-Forwarded-For")).thenReturn(null);
+        when(mockRequest.getHeader("X-Real-IP")).thenReturn(null);
+        when(mockRequest.getRemoteAddr()).thenReturn("192.168.1.1");
+
+        service.log(OperationType.CREATE, "User", "1", "Created with remote addr");
+
+        verify(repository).save(entityCaptor.capture());
+        assertEquals("192.168.1.1", entityCaptor.getValue().getIpAddress());
+
+        RequestContextHolder.resetRequestAttributes();
+    }
+
+    @Test
+    void logWithUnknownHeaders() {
+        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
+        ServletRequestAttributes attributes = new ServletRequestAttributes(mockRequest);
+        RequestContextHolder.setRequestAttributes(attributes);
+
+        when(mockRequest.getHeader("X-Forwarded-For")).thenReturn("unknown");
+        when(mockRequest.getHeader("X-Real-IP")).thenReturn("unknown");
+        when(mockRequest.getRemoteAddr()).thenReturn("192.168.1.2");
+
+        service.log(OperationType.CREATE, "User", "1", "Created with unknown headers");
+
+        verify(repository).save(entityCaptor.capture());
+        assertEquals("192.168.1.2", entityCaptor.getValue().getIpAddress());
+
+        RequestContextHolder.resetRequestAttributes();
     }
 
     private AuditLogEntity createEntity() {
