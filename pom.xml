@@ -43,6 +43,8 @@
         <module>platform-common-db</module>
         <module>user-api</module>
         <module>user-service</module>
+        <module>audit-api</module>
+        <module>audit-service</module>
         <module>idc-api</module>
         <module>idc-service</module>
         <module>server-api</module>
@@ -77,6 +79,16 @@
             <dependency>
                 <groupId>com.yhj.erp</groupId>
                 <artifactId>user-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yhj.erp</groupId>
+                <artifactId>audit-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.yhj.erp</groupId>
+                <artifactId>audit-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

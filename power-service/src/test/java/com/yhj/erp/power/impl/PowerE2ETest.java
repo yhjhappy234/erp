@@ -59,6 +59,26 @@ class PowerE2ETest {
 
     @Test
     @Order(2)
+    void createPowerDeviceWithDuplicateSerialNumber() throws Exception {
+        String request = """
+                {
+                    "deviceName": "Duplicate UPS",
+                    "deviceType": "UPS",
+                    "serialNumber": "UPS123456",
+                    "brand": "HP",
+                    "model": "R3000",
+                    "ratedPower": 2000.00
+                }
+                """;
+
+        mockMvc.perform(post("/api/v1/power/devices")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(request))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(3)
     void getPowerDeviceById() throws Exception {
         mockMvc.perform(get("/api/v1/power/devices/{id}", deviceId))
                 .andExpect(status().isOk())
@@ -66,7 +86,14 @@ class PowerE2ETest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
+    void getPowerDeviceByNonExistentId() throws Exception {
+        mockMvc.perform(get("/api/v1/power/devices/{id}", "non-existent-device-id"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(5)
     void listPowerDevices() throws Exception {
         mockMvc.perform(get("/api/v1/power/devices")
                         .param("page", "1")
@@ -76,12 +103,51 @@ class PowerE2ETest {
     }
 
     @Test
-    @Order(4)
+    @Order(6)
+    void queryPowerDevicesWithDeviceType() throws Exception {
+        mockMvc.perform(get("/api/v1/power/devices/query")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("deviceType", "UPS"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content").isArray());
+    }
+
+    @Test
+    @Order(7)
+    void queryPowerDevicesWithStatus() throws Exception {
+        mockMvc.perform(get("/api/v1/power/devices/query")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("status", "ACTIVE"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content").isArray());
+    }
+
+    @Test
+    @Order(8)
+    void queryPowerDevicesWithName() throws Exception {
+        mockMvc.perform(get("/api/v1/power/devices/query")
+                        .param("page", "1")
+                        .param("size", "10")
+                        .param("deviceName", "UPS"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content").isArray());
+    }
+
+    @Test
+    @Order(9)
     void updatePowerDevice() throws Exception {
         String request = """
                 {
                     "deviceName": "Updated UPS",
-                    "currentPower": 1500.00
+                    "brand": "Updated APC",
+                    "model": "Smart-UPS 5000",
+                    "ratedPower": 5000.00,
+                    "currentPower": 1500.00,
+                    "capacity": 100,
+                    "unit": "kWh",
+                    "status": "ACTIVE"
                 }
                 """;
 
@@ -93,9 +159,16 @@ class PowerE2ETest {
     }
 
     @Test
-    @Order(5)
+    @Order(10)
     void deletePowerDevice() throws Exception {
         mockMvc.perform(delete("/api/v1/power/devices/{id}", deviceId))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(11)
+    void deleteNonExistentPowerDevice() throws Exception {
+        mockMvc.perform(delete("/api/v1/power/devices/{id}", "non-existent-device-id"))
+                .andExpect(status().isNotFound());
     }
 }

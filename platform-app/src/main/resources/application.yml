@@ -11,6 +11,8 @@ spring:
       hibernate:
         dialect: org.hibernate.community.dialect.SQLiteDialect
         format_sql: true
+        jdbc:
+          time_zone: ${APP_TIMEZONE:Asia/Shanghai}
     show-sql: false
   flyway:
     enabled: false
@@ -35,3 +37,7 @@ app:
   default:
     username: ${APP_DEFAULT_USERNAME:admin}
     password: ${APP_DEFAULT_PASSWORD:123456}
+  timezone: ${APP_TIMEZONE:Asia/Shanghai}
+  audit:
+    enabled: ${APP_AUDIT_ENABLED:true}
+    log-level: ${APP_AUDIT_LOG_LEVEL:INFO}

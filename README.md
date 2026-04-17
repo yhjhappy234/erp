@@ -25,15 +25,15 @@
 | 认证方式 | Session |
 | 测试覆盖率 | JaCoCo (90%) |
 
-## 默认账户
+## 配置选项
 
-系统启动后自动创建默认管理员账户：
-- 用户名: `admin`
-- 密码: `123456`
-
-可通过环境变量配置：
-- `APP_DEFAULT_USERNAME`
-- `APP_DEFAULT_PASSWORD`
+| 配置项 | 环境变量 | 默认值 | 说明 |
+|--------|----------|--------|------|
+| 时区 | APP_TIMEZONE | Asia/Shanghai | 所有日期时间的时区 |
+| 审计日志启用 | APP_AUDIT_ENABLED | true | 是否启用审计日志 |
+| 审计日志级别 | APP_AUDIT_LOG_LEVEL | INFO | 审计日志级别 |
+| 默认用户名 | APP_DEFAULT_USERNAME | admin | 系统默认管理员用户名 |
+| 默认密码 | APP_DEFAULT_PASSWORD | 123456 | 系统默认管理员密码 |
 
 ## 项目结构
 
@@ -134,6 +134,19 @@ API端点：
 - 采购申请/订单管理
 - 库存管理
 - 出入库管理
+
+### 9. audit-service (审计日志管理)
+功能：
+- 操作审计日志记录
+- 支持按实体、用户、时间查询
+- 自动记录所有CRUD操作
+- 登录/登出日志
+
+API端点：
+- `GET /api/v1/audit` - 审计日志列表（需管理员）
+- `GET /api/v1/audit/query` - 条件查询审计日志
+- `GET /api/v1/audit/entity/{type}/{id}` - 实体操作日志
+- `GET /api/v1/audit/user/{userId}` - 用户操作日志
 
 ## 快速开始
 

@@ -23,6 +23,10 @@
         </dependency>
         <dependency>
             <groupId>com.yhj.erp</groupId>
+            <artifactId>audit-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yhj.erp</groupId>
             <artifactId>idc-service</artifactId>
         </dependency>
         <dependency>
