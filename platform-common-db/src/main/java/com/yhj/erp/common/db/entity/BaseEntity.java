@@ -7,11 +7,12 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * Base entity for all entities in the system.
  * Provides common fields: id, createdAt, updatedAt, deleted, createdBy, updatedBy.
+ * All timestamps are stored as UTC (Instant) per ai-spec.md requirements.
  */
 @Getter
 @Setter
@@ -28,16 +29,16 @@ public abstract class BaseEntity {
     private String id;
 
     /**
-     * Creation timestamp
+     * Creation timestamp (UTC)
      */
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     /**
-     * Last update timestamp
+     * Last update timestamp (UTC)
      */
     @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     /**
      * Soft delete flag
@@ -64,8 +65,8 @@ public abstract class BaseEntity {
      */
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        createdAt = Instant.now();
+        updatedAt = Instant.now();
     }
 
     /**
@@ -73,7 +74,7 @@ public abstract class BaseEntity {
      */
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = Instant.now();
     }
 
     /**
